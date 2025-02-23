@@ -3,6 +3,9 @@ A quick way to make a new computer to feel like home (oh-my-zsh install, .vimrc 
 
 * instructions
 
+# install zsh and oh-my-zsh
 1. ./takemehome
 
-simple!
+# install oh-my-zsh configs, .vimrc config, workspace, and check ssh keys
+2. ./takemehome
+3. restart Terminal

@@ -5,43 +5,73 @@ RED="\033[0;31m"
 YLW="\033[0;33m"
 GRN="\033[0;32m"
 BLU="\033[0;34m"
-WHT="\033[0;37m"
+WHT="\033[0m"
 
 # check for zsh
 if [[ $(which zsh | grep "not found") ]]; then 
 	sudo apt install zsh
-	echo -e "${WHITE}zsh not detected => ${YLW}installing"
+	echo -e "${WHT}zsh not detected => ${YLW}installing"
 else
 	echo -e "${GRN}zsh exists"
 fi	
 
 # check for oh-my-zsh
-if [ ! -f  ~/.zshrc  ]; then
-	echo =e "${WHT}oh-my-zsh not detected => ${YLW}installing"
+if [ ! -d  ~/.oh-my-zsh  ]; then
+	echo -e "${WHT}oh-my-zsh not detected => ${YLW}installing"
 
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-	
+else
+	echo -e "${GRN}oh-my-zsh exists"
+fi
+
+# check for custom oh-my-zsh-configs
+if [[ ! $(grep "bindkey -M vicmd 'x' delete-char" ~/.zshrc) ]]; then
 	# install autosuggestions, syntax-highlighting, and vi-mode plugins
     git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-	git clone https://github.com/jeffreytse/zsh-vi-mode $ZSH_CUSTOM/plugins/zsh-vi-mode
+	git clone https://github.com/jeffreytse/zsh-vi-mode ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-vi-mode
 
+	echo -e "${WHT}oh-my-zsh configs not detected => ${YLW}installing"
+	awk '{if ($0 ~ /plugins=\(git\)/)  
+			{print "plugins=(git)"; 
+			print "plugins+=( zsh-autosuggestions )"; 
+			print "plugins+=( zsh-syntax-highlighting )"; 
+			print "plugins+=( zsh-vi-mode )"} else {print}}' ~/.zshrc > temp.txt && mv temp.txt ~/.zshrc 
+	
 	# add zsh vi configs to ~/.zshrc
 	echo "# zsh vi cli configs" >> ~/.zshrc
 	echo "export ZVM_VI_INSERT_ESCAPE_BINDKEY=jk" >> ~/.zshrc
 	echo "export ZVIM_VI_EDITOR=vim" >> ~/.zshrc
 	echo "export ZVM_LINE_INIT_MODE=i" >> ~/.zshrc
-	echo "bindkey -M vicmd 'x' forward-delete-char" >> ~/.zshrc
+	echo "bindkey -M vicmd 'x' delete-char" >> ~/.zshrc
 else
-	echo -e "${GRN}oh-my-zsh exists"
+	echo -e "${GRN}oh-my-zsh configs exist"
 fi
 
 # check for vim configs
 if [ ! -f ~/.vimrc ]; then
-	echo =e "${WHT}.vimrc not detected => ${YLW}installing"
+	echo -e "${WHT}.vimrc not detected => ${YLW}installing"
 	cp .vimrc ~
 else
 	echo -e "${GRN}.vimrc exists"
+fi
+
+# check if workspace is created
+if [ ! -d ~/workspace ]; then
+	echo -e "${WHT}~/workspace not detected => ${YLW}installing"
+	mkdir ~/workspace
+	echo "cd ~/workspace" >> ~/.zshrc
+else
+	echo -e "${GRN}~/workspace exists"
+fi
+
+# check if ssh key is present for github
+if [ ! -f ~/.ssh/id_ed25519.pub ]; then
+	echo -e "${WHT}ssh keys not detected => ${YLW}installing" 
+	read -p "Enter email for github: " gitemail
+	ssh-keygen -t ed25519 -C $gitemail
+else
+	echo -e "${GRN}ssh keys exist"
 fi
 
 # all done
