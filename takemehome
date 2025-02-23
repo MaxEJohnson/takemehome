@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# add pretty colors for progress prints
+RED="\033[0;31m"
+YLW="\033[0;33m"
+GRN="\033[0;32m"
+BLU="\033[0;34m"
+WHT="\033[0;37m"
+
+# check for zsh
+if [[ $(which zsh | grep "not found") ]]; then 
+	sudo apt install zsh
+	echo -e "${WHITE}zsh not detected => ${YLW}installing"
+else
+	echo -e "${GRN}zsh exists"
+fi	
+
+# check for oh-my-zsh
+if [ ! -f  ~/.zshrc  ]; then
+	echo =e "${WHT}oh-my-zsh not detected => ${YLW}installing"
+
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+	
+	# install autosuggestions, syntax-highlighting, and vi-mode plugins
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+	git clone https://github.com/jeffreytse/zsh-vi-mode $ZSH_CUSTOM/plugins/zsh-vi-mode
+
+	# add zsh vi configs to ~/.zshrc
+	echo "# zsh vi cli configs" >> ~/.zshrc
+	echo "export ZVM_VI_INSERT_ESCAPE_BINDKEY=jk" >> ~/.zshrc
+	echo "export ZVIM_VI_EDITOR=vim" >> ~/.zshrc
+	echo "export ZVM_LINE_INIT_MODE=i" >> ~/.zshrc
+	echo "bindkey -M vicmd 'x' forward-delete-char" >> ~/.zshrc
+else
+	echo -e "${GRN}oh-my-zsh exists"
+fi
+
+# check for vim configs
+if [ ! -f ~/.vimrc ]; then
+	echo =e "${WHT}.vimrc not detected => ${YLW}installing"
+	cp .vimrc ~
+else
+	echo -e "${GRN}.vimrc exists"
+fi
+
+# all done
+echo -e "${BLU}Welcome Home"
+echo -e "${YLW}Now Restart the terminal to take hold"
