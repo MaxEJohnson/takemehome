@@ -20,6 +20,7 @@ if [ ! -d  ~/.oh-my-zsh  ]; then
 	echo -e "${WHT}oh-my-zsh not detected => ${YLW}installing"
 
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
 else
 	echo -e "${GRN}oh-my-zsh exists"
 fi
@@ -32,13 +33,46 @@ if [[ ! $(grep "bindkey -M vicmd 'x' delete-char" ~/.zshrc) ]]; then
 	git clone https://github.com/jeffreytse/zsh-vi-mode ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-vi-mode
 
 	echo -e "${WHT}oh-my-zsh configs not detected => ${YLW}installing"
-	awk '{if ($0 ~ /plugins=\(git\)/)  
+    awk '{if ($0 ~ /ZSH_THEME="robbyrussell"/)
+            {print "ZSH_THEME=\"nanotech\""} else {print}}' ~/.zshrc > temp.txt && mv temp.txt ~/.zshrc
+    awk 'NR == 1 {
+    print "truncate_dir() {";
+    print "    local dir_name=$(basename \"$(pwd)\")";
+    print "    if [[ ${#dir_name} -gt 20 ]]; then";
+    print "        dir_name=\"...${dir_name: -17}\"";
+    print "    fi";
+    print "    printf \"%-20s\" \"$dir_name\"";
+    print "}";
+    print "PROMPT=\x27%F{green} $(truncate_dir)%F{blue} [ %f \x27";
+    next;
+    }
+    { print }' ~/.oh-my-zsh/themes/nanotech.zsh-theme > temp.txt && mv temp.txt ~/.oh-my-zsh/themes/nanotech.zsh-theme
+
+    awk '{if ($0 ~ /plugins=\(git\)/)  
 			{print "plugins=(git)"; 
 			print "plugins+=( zsh-autosuggestions )"; 
 			print "plugins+=( zsh-syntax-highlighting )"; 
 			print "plugins+=( zsh-vi-mode )"} else {print}}' ~/.zshrc > temp.txt && mv temp.txt ~/.zshrc 
 	
-	# add zsh vi configs to ~/.zshrc
+	# add aliases, functions, and configs to ~/.zshrc
+    echo "cdf() {" >> ~/.zshrc
+    echo '  cd $(find -d ~/workspace -name "$1" -print -quit | head -n 1)' >> ~/.zshrc
+    echo "}"  >> ~/.zshrc 
+    echo "" >> ~/.zshrc
+    echo "ghash() {" >> ~/.zshrc
+    echo '  hashout=$(git log --oneline --decorate --all | grep -ni "$1" | cut -b 1-9)' >> ~/.zshrc
+    echo '  line_count=$(sed -n '\''$='\'' <<< "hashout")' >> ~/.zshrc
+    echo "" >> ~/.zshrc
+    echo '  if [[ "line_count" -gt 1 ]]; then' >> ~/.zshrc
+    echo '      git log --oneline --decorate --all | grep -ni "$1"' >> ~/.zshrc
+    echo "  else" >> ~/.zshrc
+    echo '      echo "$hashout"' >> ~/.zshrc
+    echo "  fi" >> ~/.zshrc
+    echo "}" >> ~/.zshrc
+    echo "" >> ~/.zshrc
+    echo 'alias gtree="git log --graph --oneline --decorate --all"' >> ~/.zshrc
+    echo "" >> ~/.zshrc
+
 	echo "# zsh vi cli configs" >> ~/.zshrc
 	echo "export ZVM_VI_INSERT_ESCAPE_BINDKEY=jk" >> ~/.zshrc
 	echo "export ZVIM_VI_EDITOR=vim" >> ~/.zshrc
@@ -52,6 +86,15 @@ fi
 if [ ! -f ~/.vimrc ]; then
 	echo -e "${WHT}.vimrc not detected => ${YLW}installing"
 	cp .vimrc ~
+    mkdir -p ~/.vim/autoload 
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    # Install Node.js for Copilot Plugin:
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+    \. "$HOME/.nvm/nvm.sh"
+    nvm install 22
+    node -v # Should print "v22.14.0".
+    nvm current # Should print "v22.14.0".
+    npm -v # Should print "10.9.2".
 else
 	echo -e "${GRN}.vimrc exists"
 fi
