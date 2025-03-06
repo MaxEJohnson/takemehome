@@ -114,8 +114,7 @@ nnoremap <Leader><Leader> :b#<CR>
 nnoremap <Leader>gs :Git<CR>
 nnoremap <Leader>gd :Gdiffsplit<CR>
 " LSP remaps
-nnoremap <Leader>ls :LspEnable<CR>
-nnoremap <Leader>ld :LspDisable<CR>
+nnoremap <Leader>ls :LspStop<CR>
 " Term remaps
 nnoremap <Leader>tt :call JumpToTerm()<CR>
 tnoremap <C-t> <C-\><C-n>:tabprevious<CR>
