@@ -12,16 +12,18 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
+Plug 'rust-lang/rust.vim'
 call plug#end()
 
 " Settings
 syntax on
 filetype on
 filetype plugin indent on 
+let g:rustfmt_autosave = 1
 
 " Visual
 set termguicolors
-colorscheme zaibatsu
+colorscheme blue 
 set background=dark
 highlight DiffAdd cterm=bold ctermfg=none ctermbg=DarkGreen
 highlight DiffChange cterm=bold ctermfg=none ctermbg=DarkYellow
@@ -51,10 +53,10 @@ set hlsearch
 set incsearch
 
 " Syntax
-autocmd BufRead,BufNewFile *.py set sytnax=python
-autocmd BufRead,BufNewFile *.rs set sytnax=rust
-autocmd BufRead,BufNewFile *.c,*.h set sytnax=c
-autocmd BufRead,BufNewFile *.sh set sytnax=bash
+autocmd BufRead,BufNewFile *.py set syntax=python
+autocmd BufRead,BufNewFile *.c,*.h set syntax=c
+autocmd BufRead,BufNewFile *.rs set syntax=rs
+autocmd BufRead,BufNewFile *.sh set syntax=bash
 autocmd FileType python,c,rust,bash nnoremap <C-]> :LspPeekDefinition<CR>
 autocmd FileType python,c,rust,bash nnoremap <C-[> :LspDefinition<CR>
 
@@ -105,7 +107,7 @@ nnoremap <Leader>ee :Ex<CR>
 nnoremap <Leader>ff :Files<CR>
 nnoremap <Leader>fg :Rg<CR>
 " Buffer remaps
-nnoremap <Leader>bl :ls<CR>
+nnoremap <Leader>bl :Buffers<CR>
 nnoremap <Leader>bd :bd<CR>
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
@@ -116,5 +118,5 @@ nnoremap <Leader>gd :Gdiffsplit<CR>
 " LSP remaps
 nnoremap <Leader>ls :LspStop<CR>
 " Term remaps
-nnoremap <Leader>tt :call JumpToTerm()<CR>
-tnoremap <C-t> <C-\><C-n>:tabprevious<CR>
+" nnoremap <Leader>tt :call JumpToTerm()<CR>
+" tnoremap <C-t> <C-\><C-n>:tabprevious<CR>
