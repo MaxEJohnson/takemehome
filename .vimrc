@@ -13,6 +13,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'rust-lang/rust.vim'
+Plug 'voldikss/vim-floaterm'
 call plug#end()
 
 " Settings
@@ -23,12 +24,14 @@ let g:rustfmt_autosave = 1
 
 " Visual
 set termguicolors
-colorscheme blue 
 set background=dark
+colorscheme zaibatsu
 highlight DiffAdd cterm=bold ctermfg=none ctermbg=DarkGreen
 highlight DiffChange cterm=bold ctermfg=none ctermbg=DarkYellow
 highlight DiffDelete cterm=bold ctermfg=none ctermbg=DarkRed
 highlight DiffText cterm=bold ctermfg=10 ctermbg=DarkBlue
+let g:floaterm_width = 0.8
+let g:floaterm_height = 0.8
 
 " Line
 set number
@@ -73,19 +76,6 @@ set ruler
 " Functions
 set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
 
-function! JumpToTerm()
-    for tab in gettabinfo()
-        for win in tab.windows()
-            if getbufvar(winbufnr(win), "&buftype") ==# "terminal"
-                execute  tab.tabnr . 'tabnext'
-                call win_gotoid(win)
-                return
-            endif
-        endfor
-    endfor
-    tab term
-endfunction
-
 " Remappings
 let mapleader = " "
 inoremap jk <ESC>:w<CR>
@@ -118,5 +108,5 @@ nnoremap <Leader>gd :Gdiffsplit<CR>
 " LSP remaps
 nnoremap <Leader>ls :LspStop<CR>
 " Term remaps
-" nnoremap <Leader>tt :call JumpToTerm()<CR>
-" tnoremap <C-t> <C-\><C-n>:tabprevious<CR>
+nnoremap <Leader>tt :FloatermToggle<CR>
+tnoremap <C-t> <C-\><C-n>:FloatermToggle<CR>
