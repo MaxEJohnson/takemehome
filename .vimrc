@@ -170,4 +170,3 @@ nnoremap <Leader>gd :Gdiffsplit<CR>
 nnoremap <Leader>ls :LspStop<CR>
 " Term remaps
 nnoremap <Leader>tt :FloatermToggle<CR>
-tnoremap <C-t> <C-\><C-n>:FloatermToggle<CR>
