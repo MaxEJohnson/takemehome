@@ -121,7 +121,6 @@ autocmd BufRead,BufNewFile *.sh set syntax=bash
 autocmd FileType python,c,rust,bash nnoremap <C-[> :LspDefinition<CR>
 
 command! VuitVSplit vertical terminal vuit 
-nnoremap <Leader>ff :VuitVSplit<CR>
 
 let g:lsp_diagnostics_enabled = 1
 
@@ -156,7 +155,7 @@ nnoremap <Leader>tp :tabprevious<CR>
 nnoremap <Leader>tf :vertical resize 200<CR>
 " Dir Search remaps
 nnoremap <Leader>ee :Ex<CR>
-"nnoremap <Leader>ff :Files<CR>
+nnoremap <Leader>ff :VuitVSplit<CR>
 nnoremap <Leader>fg :Rg<CR>
 " Buffer remaps
 nnoremap <Leader>bl :Buffers<CR>
