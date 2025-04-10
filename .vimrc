@@ -6,7 +6,7 @@
 " Plugins
 call plug#begin('~/.vim/plugged')
 Plug 'sheerun/vim-polyglot'
-"Plug 'github/copilot.vim'
+Plug 'github/copilot.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
@@ -118,7 +118,7 @@ autocmd BufRead,BufNewFile *.py set syntax=python
 autocmd BufRead,BufNewFile *.c,*.h set syntax=c
 autocmd BufRead,BufNewFile *.rs set syntax=rs
 autocmd BufRead,BufNewFile *.sh set syntax=bash
-autocmd FileType python,c,rust,bash nnoremap <C-[> :LspDefinition<CR>
+autocmd FileType python,c,rust,bash nnoremap <C-]> :LspDefinition<CR>
 
 command! VuitVSplit vertical terminal vuit 
 
