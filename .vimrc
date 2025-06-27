@@ -14,6 +14,7 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'rust-lang/rust.vim'
 Plug 'voldikss/vim-floaterm'
+Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 " Settings
@@ -21,9 +22,6 @@ syntax on
 filetype on
 filetype plugin indent on 
 let g:rustfmt_autosave = 1
-
-" Visual
-set termguicolors
 
 " Personal Colorscheme
 set background=dark
@@ -147,7 +145,7 @@ nnoremap N Nzzzv
 nnoremap <Leader>y "+y
 vnoremap <Leader>y "+y
 " Window and Tab remaps
-nnoremap <Leader>sv :vsplit<CR>
+nnoremap <Leader>sv :vsplit<CR><C-w>w
 nnoremap <Leader>td <C-w>w
 nnoremap <Leader>to :tabnew %<CR> 
 nnoremap <Leader>tn :tabnext<CR>
@@ -169,4 +167,4 @@ nnoremap <Leader>gd :Gdiffsplit<CR>
 " LSP remaps
 nnoremap <Leader>ls :LspStop<CR>
 " Term remaps
-nnoremap <Leader>tt :FloatermToggle<CR>
+nnoremap <Leader>tt :vert term<CR>
