@@ -47,7 +47,17 @@ zinit load zdharma/fast-syntax-highlighting
 # Powerlevel10k config
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# --- End Zinit Setup ---
+# --- Shared, real-time zsh history ---
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+
+setopt SHARE_HISTORY         # Share history between all sessions
+setopt INC_APPEND_HISTORY    # Append commands to the history file immediately
+setopt HIST_IGNORE_ALL_DUPS  # Avoid repeated entries
+setopt HIST_REDUCE_BLANKS    # Strip unnecessary spaces
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_VERIFY
 
 EOF
 )
