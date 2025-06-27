@@ -105,8 +105,8 @@ setw -g mode-keys vi
 set -g history-limit 10000
 
 # Tmux prefix and reload
-bind \'\\\' split-window -h
-bind \'-\' split-window -v
+bind '\\' split-window -h
+bind '-' split-window -v
 unbind C-b
 set -g prefix C-j
 bind r source-file ~/.tmux.conf \; display-message "Config reloaded"
