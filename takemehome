@@ -151,29 +151,19 @@ tmux new-session -d -s temp_tpm_session && \
   tmux kill-session -t temp_tpm_session
 
 # -----------------------
-# Install Vim
+# Install NVIM
 # -----------------------
 # --- Variables ---
-VIMRC_URL="https://raw.githubusercontent.com/MaxEJohnson/takemehome/main/.vimrc"
-VIMRC_PATH="${HOME}/.vimrc"
-VIM_PLUG_PATH="${HOME}/.vim/autoload/plug.vim"
+NVIM_URL="https://raw.githubusercontent.com/MaxEJohnson/takemehome/main/nvim.zip"
+NVIM_PATH="${HOME}/.config/"
 
-# --- Download your .vimrc ---
-echo "Downloading .vimrc from your repo..."
-curl -fsSL "$VIMRC_URL" -o "$VIMRC_PATH"
+# --- Download your nvim configs ---
+echo "Downloading nvim.zip from your repo..."
+curl -fsSL "$NVIM_URL" -o "$NVIM_PATH"
 
-# --- Install vim-plug if needed ---
-if [[ ! -f "$VIM_PLUG_PATH" ]]; then
-  echo "Installing vim-plug..."
-  curl -fLo "$VIM_PLUG_PATH" --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-else
-  echo "vim-plug already installed."
-fi
-
-# --- Install vim plugins via vim-plug ---
-echo "Installing vim plugins listed in .vimrc..."
-vim +PlugInstall +qall
+cd $NVIM_PATH
+unzip nvim.zip
+rm nvim.zip
 
 # Add zinit block if it's not already in .zshrc
 if ! grep -q "zinit load romkatv/powerlevel10k" "$ZSHRC" 2>/dev/null; then
@@ -186,7 +176,7 @@ fi
 
 # Warn if zsh is not the default shell
 if [[ "$SHELL" != *zsh ]]; then
-    echo "⚠️ Your current shell is not Zsh: $SHELL"
+    echo -e "${YLW}Your current shell is not Zsh: $SHELL${WHT}"
     echo "To change it, run: chsh -s $(command -v zsh)"
 fi
 
