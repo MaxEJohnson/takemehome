@@ -155,13 +155,13 @@ tmux new-session -d -s temp_tpm_session && \
 # -----------------------
 # --- Variables ---
 NVIM_URL="https://raw.githubusercontent.com/MaxEJohnson/takemehome/main/nvim.zip"
-NVIM_PATH="${HOME}/.config/"
+NVIM_PATH="${HOME}/.config/nvim.zip"
 
 # --- Download your nvim configs ---
 echo "Downloading nvim.zip from your repo..."
 curl -fsSL "$NVIM_URL" -o "$NVIM_PATH"
 
-cd $NVIM_PATH
+cd ~/.config/ 
 unzip nvim.zip
 rm nvim.zip
 
